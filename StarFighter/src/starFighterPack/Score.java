@@ -11,19 +11,21 @@ public class Score{
   private int lives;
   private int ammo;
   private int level;
+  private int isPaused;
   public static final Font FONT = new Font("Arial", 1, 20);
 
   public Score(){
-    this(20,20,0,3,0,1);
+    this(20,20,0,3,0,1,1);
   }
 
-  public Score(int x, int y, int s, int li, int a, int le){
+  public Score(int x, int y, int s, int li, int a, int le, int p){
     xPos = x;
     yPos = y;
     score = s;
     lives = li;
     ammo = a;
     level = le;
+    isPaused = p;
   }
 
   public void setScore(int i){
@@ -40,6 +42,10 @@ public class Score{
 
   public void setLevel(int i){
     level=i;
+  }
+  
+  public void togglePause() {
+	  isPaused*=-1;
   }
 
   public boolean outOfAmmo(){
@@ -61,10 +67,27 @@ public class Score{
   public int getLevel(){
     return level;
   }
+  
+  public int isPaused() {
+	  return isPaused;
+  }
 
   public void draw(Graphics window, Color c){
     window.setFont(FONT); 
     window.setColor(c);
-    window.drawString("Lives: "+lives+" Ammo: "+ammo+" Score: "+score+" Level: "+level, xPos, yPos);
+    window.drawString("Lives: "+lives+" Level: "+level+" Score: "+score+" Ammo: "+ammo, xPos, yPos);
+    if(isPaused==-1) {
+    	drawPaused(window, Color.RED);
+    }
+  }
+  
+  public void drawPaused(Graphics window, Color c){
+	  window.setColor(c);
+	  window.drawString("Press C to continue", StarFighter.WIDTH/2-120, StarFighter.HEIGHT/2);
+  }
+  
+  public void drawGameOver(Graphics window, Color c) {
+	  window.drawString("GAME OVER", StarFighter.WIDTH/2-75, StarFighter.HEIGHT/2-100);
+	  drawPaused(window, c);
   }
 }

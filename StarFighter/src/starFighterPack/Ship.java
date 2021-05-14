@@ -33,11 +33,14 @@ public class Ship extends MovingThing
   {
     super(x, y, w, h);
     speed=s;
-    try {
-        File pathToFile = new File("D:\\\\Users\\\\ndugg\\\\eclipse-workspace\\\\StarFighter\\\\src\\\\starFighterPack\\\\ship.jpg");
-        image = ImageIO.read(pathToFile);
-    } catch (IOException ex) {
-        ex.printStackTrace();
+    try
+    {
+      URL url = getClass().getResource("ship.jpg");
+      image = ImageIO.read(url);
+    }
+    catch(Exception e)
+    {
+      //feel free to do something here
     }
   }
 

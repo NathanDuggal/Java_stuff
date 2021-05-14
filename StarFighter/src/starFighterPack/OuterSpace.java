@@ -19,7 +19,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
   private Bullets bullets;
   private AlienBullets alienBullets;
   private Score score;
-  private int difficulty;
 
   /* uncomment once you are ready for this part
    *
@@ -49,8 +48,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
   }
 
   public void reset(){
-	score.setAmmo(30+5*score.getLevel());
-    ship = new Ship(400,300,75,75,5);
+	score.setAmmo(20+5*score.getLevel());
+    ship = new Ship(StarFighter.WIDTH/2-37,StarFighter.WIDTH/2-37,75,75,5);
     aliens = new AlienHorde(50, score.getLevel());
     bullets = new Bullets();
     alienBullets = new AlienBullets();
@@ -83,48 +82,49 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     if(aliens.noMoreAliens()) {
     	score.setLevel(score.getLevel()+1);
     	reset();
+    	score.togglePause();
     }
     if(score.getLives() == 0) {
     	score.setLives(3);
     	score.setLevel(1);
     	score.setScore(0);
     	reset();
+    	score.togglePause();
     }
-
-    if(keys[0])
-      ship.move(0);
-    if(keys[1])
-      ship.move(1);
-    if(keys[2])
-      ship.move(2);
-    if(keys[3])
-      ship.move(3);
-    if(keys[4] && !score.outOfAmmo()){
-      bullets.add(new Ammo(ship.getX()+ship.getWidth()/2-5,ship.getY(),20));
-      score.setAmmo(score.getAmmo()-1);
-      keys[4]=false;
+    
+    if(score.isPaused()==1) {
+	    if(keys[0])
+	      ship.move(0);
+	    if(keys[1])
+	      ship.move(1);
+	    if(keys[2])
+	      ship.move(2);
+	    if(keys[3])
+	      ship.move(3);
+	    if(keys[4] && !score.outOfAmmo()){
+	      bullets.add(new Ammo(ship.getX()+ship.getWidth()/2-5,ship.getY(),20));
+	      score.setAmmo(score.getAmmo()-1);
+	      keys[4]=false;
+	    }
+	
+	    aliens.tryShoot(alienBullets);
+	
+	    bullets.moveEmAll();
+	    alienBullets.moveEmAll();
+	    aliens.moveEmAll();
     }
-
-    aliens.tryShoot(alienBullets);
-
-    bullets.moveEmAll();
-    alienBullets.moveEmAll();
-    aliens.moveEmAll();
     
     ship.draw(graphToBack);
+    aliens.drawEmAll(graphToBack);
     bullets.drawEmAll(graphToBack);
     alienBullets.drawEmAll(graphToBack);
-    aliens.drawEmAll(graphToBack);
+    score.draw(graphToBack,Color.YELLOW);
 
 
     //add in collision detection to see if Bullets hit the Aliens and if Bullets hit the Ship
     if(ship.isHit(alienBullets,aliens))
 		score.setLives(score.getLives()-1);
     aliens.removeDeadOnes(bullets.getList(), score);
-    score.draw(graphToBack,Color.YELLOW);
-
-
-
 
     bullets.cleanEmUp();
     alienBullets.cleanEmUp();
@@ -153,6 +153,11 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     if (e.getKeyCode() == KeyEvent.VK_SPACE)
     {
       keys[4] = false;
+    }
+    
+    if(e.getKeyCode() == KeyEvent.VK_C)
+    {
+    	score.togglePause();
     }
 
     repaint();
@@ -198,7 +203,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     {
       while(true)
       {
-        Thread.currentThread().sleep(5);
+        Thread.currentThread().sleep(10);
         repaint();
       }
     }catch(Exception e)

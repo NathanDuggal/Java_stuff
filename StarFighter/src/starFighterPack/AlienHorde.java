@@ -125,7 +125,6 @@ public class AlienHorde
           score.setScore(score.getScore()+10);
           //score.setAmmo(score.getAmmo()+1);
           i--;
-          ii--;
           break;
         }
       }
