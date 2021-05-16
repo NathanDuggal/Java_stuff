@@ -78,6 +78,9 @@ public class Score{
     window.drawString("Lives: "+lives+" Level: "+level+" Score: "+score+" Ammo: "+ammo, xPos, yPos);
     if(isPaused==-1) {
     	drawPaused(window, Color.RED);
+    	if(level==1) {
+        	drawGameOver(window, Color.RED);
+        }
     }
   }
   

@@ -96,6 +96,13 @@ public class AlienHorde
     if(rand==0)
       alBull.add(new Ammo(al.getX()+al.getWidth()/2-5,al.getY(),5));
   }
+  
+  public boolean areAtBottom() {
+	  for(Alien a : aliens)
+		  if(a.isAtBottom())
+			  return true;
+	  return false;
+  }
 
   public void moveEmAll()
   {

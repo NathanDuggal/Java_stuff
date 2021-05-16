@@ -32,8 +32,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
   public OuterSpace()
   {
-    score = new Score();
-    reset();
+    newGame();
     setBackground(Color.black);
 
     keys = new boolean[5];
@@ -53,6 +52,11 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     aliens = new AlienHorde(50, score.getLevel());
     bullets = new Bullets();
     alienBullets = new AlienBullets();
+  }
+  
+  public void newGame() {
+  	score = new Score();
+    reset();
   }
 
   public void update(Graphics window)
@@ -84,11 +88,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     	reset();
     	score.togglePause();
     }
-    if(score.getLives() == 0) {
-    	score.setLives(3);
-    	score.setLevel(1);
-    	score.setScore(0);
-    	reset();
+    if(score.getLives() == 0 || aliens.areAtBottom()) {
+    	newGame();
     	score.togglePause();
     }
     
@@ -122,7 +123,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 
     //add in collision detection to see if Bullets hit the Aliens and if Bullets hit the Ship
-    if(ship.isHit(alienBullets,aliens))
+    if(ship.isHit(alienBullets,aliens)) 
 		score.setLives(score.getLives()-1);
     aliens.removeDeadOnes(bullets.getList(), score);
 

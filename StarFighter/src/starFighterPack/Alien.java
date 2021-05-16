@@ -63,6 +63,10 @@ public class Alien extends MovingThing
   public int getDir(){
     return direction;
   }
+  
+  public boolean isAtBottom() {
+	  return getY()>=StarFighter.HEIGHT;
+  }
 
   public void move(int i){
 
@@ -83,6 +87,7 @@ public class Alien extends MovingThing
   public void draw( Graphics window )
   {
     window.drawImage(image,getX(),getY(),getWidth(),getHeight(),null);
+    //window.drawString("");
   }
 
   public String toString()
