@@ -28,10 +28,10 @@ public class Runner extends JFrame
 		vectors.add(new Vector(x,y));
 	}
 	
-    PV theGame = new PV(vectors);
-    ((Component)theGame).setFocusable(true);
+    PV pv = new PV(vectors);
+    ((Component)pv).setFocusable(true);
 
-    getContentPane().add(theGame);
+    getContentPane().add(pv);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
   }
