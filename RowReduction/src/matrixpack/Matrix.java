@@ -54,7 +54,7 @@ public class Matrix{
     int ii = 0;
     int nextCol = 0;
     int nextRow = 0;
-    while(nextRow < matrix.length){
+    while(nextRow < matrix.length && nextCol < matrix[0].length){
       System.out.println("Reduction "+step);
       ii=nextCol;
       i=nextRow;
